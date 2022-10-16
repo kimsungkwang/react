@@ -1,24 +1,37 @@
 import "./App.css";
 
 function Header(props) {
-  console.log("props", props, props.title);
   return (
     <headers>
       <h1>
-        <a href="/">{props.title}</a>
+        <a
+          href="/"
+          onClick={(event) => {
+            event.preventDefault();
+            props.onChangeMode();
+          }}>
+          {props.title}
+        </a>
       </h1>
     </headers>
   );
 }
 
 function Nav(props) {
-  console.log("props", props, props.title, props.body);
   const lis = [];
   for (let i = 0; i < props.topics.length; i++) {
     let t = props.topics[i];
     lis.push(
       <li key={t.id}>
-        <a href={"/read/"+t.id}>{t.title}</a>
+        <a
+          id={t.id}
+          href={"/read/" + t.id}
+          onClick={(event) => {
+            event.preventDefault();
+            props.onChangeMode(event.target.id);
+          }}>
+          {t.title}
+        </a>
       </li>
     );
   }
@@ -28,9 +41,8 @@ function Nav(props) {
     </nav>
   );
 }
- 
+
 function Article(props) {
-  console.log("props", props, props.title, props.body);
   return (
     <article>
       <h2>{props.title}</h2>
@@ -47,8 +59,16 @@ function App() {
   ];
   return (
     <div>
-      <Header title="WEB"></Header>
-      <Nav topics={topics}></Nav>
+      <Header
+        title="WEB"
+        onChangeMode={() => {
+          alert("Header");
+        }}></Header>
+      <Nav
+        topics={topics}
+        onChangeMode={(id) => {
+          alert(id);
+        }}></Nav>
       <Article title="Welcom" body="Hello, Web"></Article>
     </div>
   );
